@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/*
+ * Fitness World design tokens (Tailwind CSS v4, CSS-first configuration).
+ *
+ * Tokens become utilities automatically, for example:
+ *   colours    bg-canvas bg-surface text-ink text-ink-muted border-line bg-accent
+ *   radii      rounded-card rounded-control rounded-badge
+ *   layout     max-w-page px-gutter py-section
+ * Type styles are the `type-*` utilities further down.
+ */
+@theme {
+  /* Colour */
+  --color-canvas: #0c0d0d;
+  --color-surface: #151717;
+  --color-accent: #c6ff4d;
+  --color-accent-hover: #d7ff7d;
+  --color-accent-active: #b2ef2f;
+  --color-on-accent: #0c0d0d;
+  --color-ink: #f7f8f4;
+  --color-ink-muted: #a7ada5;
+  /* Decorative dividers and card edges. */
+  --color-line: #292d29;
+  /* Edges of form controls. Reaches 3:1 against the surface colour. */
+  --color-line-strong: #646b64;
+  --color-danger: #ff6b5b;
+
+  /* Corners: deliberately restrained, no pills. */
+  --radius-badge: 0.25rem;
+  --radius-control: 0.375rem;
+  --radius-card: 0.5rem;
+
+  /* Layout */
+  --container-page: 80rem;
+  --spacing-gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3rem);
+  --spacing-section-sm: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --spacing-section-lg: clamp(5rem, 3rem + 8vw, 11rem);
+
+  /* Fluid type sizes, with floors for 360px screens and caps for wide ones. */
+  --text-display: clamp(3.5rem, 2.1rem + 6.6vw, 8.5rem);
+  --text-display--line-height: 0.88;
+  --text-page: clamp(2.75rem, 1.9rem + 3.8vw, 5.5rem);
+  --text-page--line-height: 0.92;
+  --text-section: clamp(2.25rem, 1.75rem + 2.2vw, 3.75rem);
+  --text-section--line-height: 0.96;
+  --text-title: clamp(1.5rem, 1.35rem + 0.6vw, 1.875rem);
+  --text-title--line-height: 1;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --text-lead--line-height: 1.55;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+}
+
+/*
+ * Typefaces are bundled locally (see src/fonts) and loaded with next/font in
+ * the root layout, which sets --font-display-face and --font-body-face.
+ */
+@theme inline {
+  --font-display: var(--font-display-face), "Arial Narrow", "Roboto Condensed",
+    Impact, sans-serif;
+  --font-sans: var(--font-body-face), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Type styles. One place to change how each kind of text looks. */
+@utility type-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  font-weight: 800;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility type-page {
+  font-family: var(--font-display);
+  font-size: var(--text-page);
+  line-height: var(--text-page--line-height);
+  font-weight: 800;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility type-section {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  line-height: var(--text-section--line-height);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility type-title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+@utility type-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 0.84;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+@utility type-lead {
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  color: var(--color-ink-muted);
+  text-wrap: pretty;
+}
+
+@utility type-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+@utility type-caption {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+}
+
+/* Short label above a heading. Sentence case, no tracking tricks. */
+@utility type-eyebrow {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* Form labels and small headings in the footer. */
+@utility type-label {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* Quiet hatched texture, shown behind images that are missing or still loading. */
+@utility bg-hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 22px,
+    var(--color-line) 22px 23px
+  );
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: var(--color-canvas);
+    scroll-behavior: smooth;
+    /* Keeps anchor targets clear of the sticky header. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  /* Visible keyboard focus on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
